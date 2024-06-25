@@ -1,0 +1,63 @@
+// Dijktras Alogorithm
+#include<bits/stdc++.h> 
+using namespace std; 
+int fun(vector<vector<int>>adj[],int V,int S,int D) 
+{
+        queue<pair<int,int>>q; 
+        vector<int>dist(V,1e9); 
+        dist[S]=0; 
+        // from source to all the nodes in graph; 
+        q.push({S,0}); 
+        while(!q.empty()) 
+        {
+             int node=q.front().first; 
+             int dis=q.front().second; 
+             q.pop(); 
+             for(auto it:adj[node]) 
+             {
+                 int AdjNode=it[0]; 
+                 int AdjDist=it[1]; 
+                 if(dist[AdjNode] > dis+AdjDist)
+                 {
+                     dist[AdjNode]=dis+AdjDist; 
+                     q.push({AdjNode,dist[AdjNode]}); 
+                 }
+             }
+        }
+        return dist[D]; 
+}
+int main()
+{
+    int v; 
+    cout<<"Enter No of Vertices : "; 
+    cin>>v; 
+    int e; 
+    cout<<"Enter No of Edges : "; 
+    cin>>e; 
+    vector<vector<int>>adj[v];
+    for(int i=0;i<e;i++) 
+    {
+        int s,d,w; 
+        cout<<"Enter Starting,Ending,Distance :"; 
+        cin>>s>>d>>w; 
+        vector<int>t1; 
+        vector<int>t2; 
+        t1.push_back(d); 
+        t1.push_back(w); 
+        adj[s].push_back(t1); 
+        t2.push_back(s); 
+        t2.push_back(w); 
+        adj[d].push_back(t2); 
+    }
+    int Source; 
+    cout<<"Enter the Source You Want to Go : "; 
+    cin>>Source; 
+    
+    int Destination; 
+    cout<<"Enter the Destination You Want to Go : "; 
+    cin>>Destination; 
+    
+    int ShortestRoute=fun(adj,v,Source,Destination); 
+    cout<<"ShortestRoute To Go There From Starting : "; 
+    cout<<ShortestRoute<<endl; 
+}
